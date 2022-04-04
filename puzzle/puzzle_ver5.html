@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Number Puzzle</title>
+        <meta charset="UTF-8">
+        <style>
+         .empty {
+         }
+
+         .tile {
+             width: 70px;
+             height: 70px;
+             border: 1px solid blue;
+             border-radius: 10px;
+             text-align: center;
+             font-size: 36px;
+             background-color: white;
+             box-shadow: rgb(128, 128, 128) 5px 5px;
+         }
+        </style>
+        <script>
+         "use strict";
+
+         var SIZE = 3; // サイズ
+         var SHUFFLE_CNT = 250 * SIZE; // シャッフル回数
+
+         var TILES = [];
+         var GOAL_VALUES = [];
+         var MAX_IDX = ((SIZE * SIZE) - 1); // TILES、GOAL_VALUES の idx 上限
+
+         var CNT = 0;          // カウンター（手数）
+         var INIT_FLG = false; // 初期表示：未
+
+         function init() {
+             // タイトル更新
+             document.title = MAX_IDX + " Puzzle";
+             // html から id:tbl に該当する要素を取得
+             var tbl = document.getElementById("tbl");
+
+             for (var i=0; i < SIZE; i++) {
+                 // html 上に、tr を生成する
+                 var tr = document.createElement("tr");
+
+                 for (var j=0; j < SIZE; j++) {
+                     var idx = (i * SIZE) + j;
+
+                     // html 上に、td を生成する
+                     var td = document.createElement("td");
+                     td.index = idx;
+                     td.value = idx;
+                     td.textContent = (idx == MAX_IDX) ? "" : (idx + 1);
+                     // style 追加
+                     td.className =  (idx == MAX_IDX) ? "empty" : "tile";
+                     // td にクリックイベントを追加（click）
+                     td.onclick = click;
+                     // TILES に td そのものを追加
+                     TILES.push(td);
+                     // GOAL_VALUES に td.value を追加
+                     GOAL_VALUES.push(td.value);
+
+                     // tr に td を追加
+                     tr.appendChild(td);
+                 }
+                 // tbl に tr を追加
+                 tbl.appendChild(tr);
+             }
+             // スタート
+             shuffle ("ready ?");
+         }
+
+         function shuffle (msg) {
+             // 初期化：未
+             INIT_FLG = false;
+
+             setTimeout( function() {
+                 // メッセージ表示
+                 if(!alert(msg)) {
+                     // シャッフル
+                     while (isClear()) {
+                         for (var i=0; i < SHUFFLE_CNT; i++) {
+                             var idx = Math.floor( Math.random() * SIZE * SIZE );
+                             click( {srcElement: {index: idx}} );
+                         }
+                     }
+                     // 初期化：済
+                     INIT_FLG = true;
+             } }, 250 );
+         }
+
+         function click (e) {
+             // 選択したセルの idx を取得
+             var from = e.srcElement.index;
+
+             // 選択したセルの上下左右の idx を算出
+             [ [from - SIZE, (from - SIZE >= 0)],       // POS_UP
+               [from + SIZE, (from + SIZE <= MAX_IDX)], // POS_DOWN
+               [from - 1, (from % SIZE != 0)],          // POS_LEFT（左端のセルでないこと：これ以上左に移動できないため）
+               [from + 1, (from % SIZE != (SIZE - 1))]  // POS_RIGHT（右端のセルでないこと：これ以上右に移動できないため）
+             ].forEach( function(to){
+                 // 選択したセルの周りに、移動先の空白はあるか？
+                 if (to[1] && TILES[to[0]].value == MAX_IDX) {
+                     move(from, to[0]);
+                 }
+             } );
+         }
+
+         function move (from, to) {
+             // 一旦保持
+             var tmp = TILES[from].value;
+
+             // 移動元
+             TILES[from].value = TILES[to].value;
+             TILES[from].textContent = TILES[to].textContent;
+             TILES[from].className = "empty";
+
+             // 移動先
+             TILES[to].value = tmp;
+             TILES[to].textContent = (tmp + 1);
+             TILES[to].className = "tile";
+
+             if (INIT_FLG) {
+                 // カウント：アップ
+                 CNT += 1;
+
+                 // パズルをクリアしたか？
+                 if (isClear()) {
+                     // 描画後に、アラートを表示
+                     shuffle("clear !! [ STEPS : " + CNT + " ]");
+                     // カウント：リセット
+                     CNT = 0;
+                 }
+             }
+         }
+
+         function isClear () {
+             var flg = true;
+
+             for (var i=0; i < TILES.length; i++) {
+                 if(GOAL_VALUES[i] != TILES[i].value){
+                     // 未完了
+                     flg = false;
+                     break;
+                 }
+             }
+             return flg;
+         }
+
+        </script>
+    </head>
+    <body onload="init()">
+        <table id="tbl"></table>
+    </body>
+</html>
