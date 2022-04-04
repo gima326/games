@@ -1,3 +1,25 @@
+# Step0: プロジェクト作成
+
+### 〜「Step0」 でやっていること〜
+
+・re-frame プロジェクトを作成する。<br>
+・[ http://localhost:8280/ ] にアクセスして、最小限度のゲームが実行できることを確認する。<br>
+
+### 〜課題〜
+
+・（パズルをかきまぜて初期化する）スクラッチ処理をどこで実行するのが適切なのか？<br>
+・（処理内容がかぶっている同種の）関数が重複定義している。<br>
+
+![todo](https://github.com/gima326/games/blob/main/puzzle/readme_img/step0-1.png)
+
+
+※以下のファイル群は数が多いのでアップロードしてません。<br><br>
+
+　　[ ~/node_modules/* ]<br>
+　　[ ~/resource/public/js/compiled/* ]<br><br>
+
+以下、プロジェクト作成時に、自動生成された README.md の内容。<br><br>
+
 # re-frame-puzzle
 
 A [re-frame](https://github.com/day8/re-frame) application designed to ... well, that part is up to
