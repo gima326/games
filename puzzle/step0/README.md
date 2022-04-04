@@ -7,8 +7,12 @@
 
 ### 〜課題〜
 
-・（パズルをかきまぜて初期化する）スクラッチ処理をどこで実行するのが適切なのか？<br>
+・パズルを初期化する「スクラッチ」処理をどこで実行するのが適切なのか？<br>
+　現状、レンダリングのまえにやっている<br>
 ・（処理内容がかぶっている同種の）関数が重複定義している。<br>
+　[ ~db/movableIdxes() ]、[ ~events/movableIdxes() ]<br>
+　[ ~db/move() ]、[ ~events/re-frame/reg-event-db ::move ]<br><br>
+
 
 ![todo](https://github.com/gima326/games/blob/main/puzzle/readme_img/step0-1.png)
 
