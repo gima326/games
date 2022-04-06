@@ -7,7 +7,7 @@
 
 ![todo](https://github.com/gima326/games/blob/main/puzzle/readme_img/step1-1.png)
 
-![todo](https://github.com/gima326/games/blob/main/puzzle/readme_img/step1-1.png)
+![todo](https://github.com/gima326/games/blob/main/puzzle/readme_img/step1-2.png)
 
 ※以下のファイル群は数が多いのでアップロードしてません。<br><br>
 
