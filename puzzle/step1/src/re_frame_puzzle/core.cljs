@@ -21,7 +21,6 @@
 
 (defn init []
   ;; 初期化
-  (re-frame/dispatch-sync [::events/initialize-tiles])
   (re-frame/dispatch-sync [::events/initialize-db])
 
   (dev-setup)

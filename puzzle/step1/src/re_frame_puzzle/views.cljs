@@ -9,17 +9,13 @@
 
 ;;======================
 
-(defn movableIdxes [tiles size idx last-idx]
+(defn getIdxNext [tiles size idx last-idx]
   (for [[idx-next movable?]
 
-        [
-         [(- idx size) (<= 0 (- idx size))]               ;; POS_UP
-         [(+ idx size) (<= (+ idx size) last-idx)]        ;; POS_DOWN
-
-         ;; 左端、右端のセルでないこと（これ以上、横に移動できない）
-         [(dec idx) (not (zero? (rem idx size)))]        ;; POS_LEFT
-         [(inc idx) (not (= (rem idx size) (dec size)))] ;; POS_RIGHT
-         ]
+        [[(- idx size) (<= 0 (- idx size))]         ;; POS_UP
+         [(+ idx size) (<= (+ idx size) last-idx)]  ;; POS_DOWN
+         [(dec idx) (< 0 (rem idx size))]           ;; POS_LEFT
+         [(inc idx) (< (rem idx size) (dec size))]] ;; POS_RIGHT
 
         :when (and movable?
                    (<= 0 idx-next)
@@ -36,13 +32,13 @@
      size
      (for [tile tiles
            :let [idx (:id tile)
-                 idxes (movableIdxes tiles size idx last-idx)]]
+                 idx-next (getIdxNext tiles size idx last-idx)]]
        [:td
-        (if (empty? idxes)
+        (if (empty? idx-next)
           tile
           (assoc tile
                  :on-click
-                 #(re-frame/dispatch [::events/move (first idxes)])))
+                 #(re-frame/dispatch [::events/move idx-next])))
         (:text tile)
         ])
      )
@@ -57,20 +53,20 @@
 ;;======================
 
 (defn genDDList []
-  (let [val (reagent/atom "")]
-    (fn []
-      [:div "Level: "
-       [:select.input-large
-        {:on-change
-         #(re-frame/dispatch [::events/change (int (.. % -target -value))])
-         }
-        [:option {:value 3} "3"]
-        [:option {:value 4} "4"]
-        [:option {:value 5} "5"]
-        [:option {:value 6} "6"]
-        ]
-       ]
-      )))
+  (fn []
+    [:div "Level: "
+     [:select.input-large
+      {:on-change
+       #(re-frame/dispatch [::events/change (int (.. % -target -value))])
+       }
+      [:option {:value 3} "3"]
+      [:option {:value 4} "4"]
+      [:option {:value 5} "5"]
+      [:option {:value 6} "6"]
+      ]
+     ]
+    )
+)
 
 ;;======================
 
