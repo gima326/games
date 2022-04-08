@@ -14,7 +14,7 @@
 　[ ~db/move() ]、[ ~events/re-frame/reg-event-db ::move ]<br><br>
 
 
-![todo](https://github.com/gima326/games/blob/main/puzzle/readme_img/step0-1.png)
+![puzzle0-1](https://github.com/gima326/games/blob/main/puzzle/readme_img/step0-1.png)
 
 
 ※以下のファイル群は数が多いのでアップロードしてません。<br><br>
