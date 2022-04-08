@@ -10,9 +10,11 @@ Step1: puzzle サイズ変更<br>
 　　　　レベル３〜６を選択できるようにする<br>
 Step2: puzzle 手数の表示<br>
 　　　　クリアするまでに要した手数を表示する<br>
+Step3: puzzle 時間の表示<br>
+　　　　クリアするまでに要した時間を表示する<br>
+
 <!--
 
-Step3: puzzle クリア時に、要した時間を表示する<br>
 Step4: puzzle 記録を<br>
 Step5: puzzle <br>
 -->
