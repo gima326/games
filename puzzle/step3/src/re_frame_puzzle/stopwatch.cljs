@@ -1,7 +1,6 @@
 (ns re-frame-puzzle.stopwatch)
 
-(defn seconds-to-time
-  [secs]
+(defn seconds-to-time [secs]
   (let [d (js/Date. (* secs 1000))]
     {:hours   (.getUTCHours d)
      :minutes (.getUTCMinutes d)
