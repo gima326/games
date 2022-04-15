@@ -5,6 +5,9 @@
 
 ;;======================
 
+;; ::move、::change ともに db の更新箇所がダサいな、と。
+;; 自分への戒めとして、恥をしのんでコメントアウトして残すこととします。
+
 (re-frame/reg-event-db
  ::move
  (fn [db [_ [[from to]]]]
@@ -13,13 +16,20 @@
          t (tiles to)]
 
      (-> db
-         (update :tiles
-                 #(assoc tiles
-                         to (assoc f :id to)
-                         from  (assoc t :id from)))
-         (update :cnt #(inc %)))
-     )))
+         ;; (update :tiles
+         ;;         #(assoc tiles
+         ;;                 to (assoc f :id to)
+         ;;                 from  (assoc t :id from)))
+         ;; (update :cnt #(inc %))
 
+         (assoc :tiles
+                (assoc tiles
+                       to (assoc f :id to)
+                       from  (assoc t :id from))
+                :cnt
+                (inc (:cnt db)))
+         )
+     )))
 
 (re-frame/reg-event-db
  ::change
@@ -28,12 +38,17 @@
          [shuffled cnt] (db/my-shuffle goal_state size)]
 
      (-> db
-         (update :size (fn [n] size))
-         (update :goal (fn [g] goal_state))
+         ;; (update :size (fn [n] size))
+         ;; (update :goal (fn [g] goal_state))
+         ;; (update :tiles (fn [t] shuffled))
+         ;; (update :shuffled_cnt (fn [sc] cnt))
+         ;; (update :cnt (fn [c] 0))
 
-         (update :tiles (fn [t] shuffled))
-         (update :shuffled_cnt (fn [sc] cnt))
-         (update :cnt (fn [c] 0))
+         (assoc :size size
+                :goal goal_state
+                :tiles shuffled
+                :shuffled_cnt cnt
+                :cnt 0)
          )
      )))
 
@@ -124,19 +139,14 @@
  puzzle-interceptors
 
  (fn [log [_ size steps]]
-   (let [id
-         (allocate-next-id log)
+   (let [id (allocate-next-id log)
 
-         new-record
-         {:id id
-          :level size
-          :steps steps
-          :datetime (getDateTime)
-          }
+         new-record {:id id
+                     :level size
+                     :steps steps
+                     :datetime (getDateTime)}
 
-         log-new
-         (conj log {id new-record})
-         ]
+         log-new (conj log {id new-record})]
 
 ;;     (println "id: " id)
 ;;     (println "log-new: " log-new)
@@ -145,26 +155,22 @@
  )
 
 (defn fn-add-log [log size steps tm]
-  (let [id
-        (allocate-next-id log)
+  (let [id (allocate-next-id log)
 
-        new-record
-        {:id id
-         :level size
-         :steps steps
-         :time tm
-         :datetime (.toLocaleString (js/Date.))
+        new-record {:id id
+                    :level size
+                    :steps steps
+                    :time tm
+                    :datetime (.toLocaleString (js/Date.))
 
-         ;; js/Date そのままだと、日本の時間にならないみたい。
-         ;; ごりごり自作するよりフォーマットを諦めて、toLocaleString() を使うことにした。
-         ;; (getDateTime)
-         }
+                    ;; js/Date そのままだと、日本の時間にならないみたい。
+                    ;; 自作するよりフォーマットを諦めて、toLocaleString() を使うことにした。
+                    ;; (getDateTime)
+                    }
 
-        log-new
-        (conj log {id new-record})
-        ]
+        log-new (conj log {id new-record})]
 
-    (println "log-new: " log-new)
+;;    (println "log-new: " log-new)
 
     ;; 更新した log でローカルストレージを上書きする
     (db/log->local-store log-new))

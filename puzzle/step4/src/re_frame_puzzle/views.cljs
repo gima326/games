@@ -80,11 +80,9 @@
 (defn etc []
   (let [size @(re-frame/subscribe [::subs/size])
         goal @(re-frame/subscribe [::subs/goal])
-
         tiles @(re-frame/subscribe [::subs/tiles])
         shuffled_cnt @(re-frame/subscribe [::subs/shuffled_cnt])
         cnt @(re-frame/subscribe [::subs/cnt])
-
         log @(re-frame/subscribe [::subs/log])]
 
     (if (zero? cnt)
