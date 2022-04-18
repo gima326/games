@@ -15,6 +15,7 @@ Step3: puzzle 時間の表示<br>
 Step4: puzzle ローカルストレージへのログ追加登録<br>
 　　　　クリアするまでに要した手数、時間をローカルストレージへ登録する<br>
 Step4-2: puzzle リファクタリング<br>
+Step4-3: puzzle リファクタリング２<br>
 
 <!--
 
