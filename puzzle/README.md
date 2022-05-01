@@ -22,6 +22,7 @@ Step4-4: puzzle リファクタリング３<br>
 Step5: puzzle SVG でログを出力<br>
 
 Step5-2: puzzle リファクタリング４<br>
+Step5-3: puzzle リファクタリング５<br>
 
 <!--
 
